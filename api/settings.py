@@ -10,6 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import os
+
+from dotenv import load_dotenv
+load_dotenv()
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -76,7 +81,19 @@ WSGI_APPLICATION = 'api.wsgi.app'
 # Note: Django modules for using databases are not support in serverless
 # environments like Vercel. You can use a database over HTTP, hosted elsewhere.
 
-DATABASES = {}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get("NAME_DB"),
+        'USER': os.environ.get("USER_DB"),
+        'PASSWORD': os.environ.get("PASSWORD_DB"),
+        'HOST': os.environ.get("HOST_DB"),
+        'PORT': os.environ.get("PORT_DB"),
+        'OPTIONS': {
+            'sslmode': 'require'
+        }
+    }
+}
 
 
 # Password validation
